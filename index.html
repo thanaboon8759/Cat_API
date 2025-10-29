@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Gallery - The Cat API</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #4ecdc4;
+            color: white;
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2em;
+            padding: 20px;
+        }
+
+        .error {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .cat-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .cat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+        }
+
+        .cat-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .cat-info {
+            padding: 15px;
+        }
+
+        .breed-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .breed-description {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .cat-image {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐱 Cat Gallery</h1>
+            <p class="subtitle">Discover Amazing Cats from Around the World</p>
+        </header>
+
+        <div class="stats" id="stats">
+            <div class="stat-item">
+                <div class="stat-value" id="totalCats">0</div>
+                <div class="stat-label">Cats Viewed</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="totalBreeds">0</div>
+                <div class="stat-label">Breeds Available</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="currentPage">1</div>
+                <div class="stat-label">Page</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn-primary" onclick="loadRandomCats()">🎲 Random Cats</button>
+            <button class="btn-secondary" onclick="loadBreedCats()">🏆 Show Breeds</button>
+            <button onclick="loadMoreCats()">⬇️ Load More</button>
+        </div>
+
+        <div id="error" class="error" style="display: none;"></div>
+        <div id="loading" class="loading" style="display: none;">Loading cats... 🐾</div>
+        
+        <div class="gallery" id="gallery"></div>
+    </div>
+
+    <script>
+        const API_KEY = 'live_gVPv82VA9ruydZSojPZJtyVqIytBytzuHakYaaSEM1OqeONKb4BDG6FR0AeilCdW';
+        const API_BASE = 'https://api.thecatapi.com/v1';
+        
+        let currentPage = 1;
+        let totalCatsViewed = 0;
+        let totalBreeds = 0;
+        let currentMode = 'random';
+
+        // Initialize the page
+        async function init() {
+            await loadBreedCount();
+            await loadRandomCats();
+        }
+
+        // Load breed count
+        async function loadBreedCount() {
+            try {
+                const response = await fetch(`${API_BASE}/breeds`, {
+                    headers: {
+                        'x-api-key': API_KEY
+                    }
+                });
+                const breeds = await response.json();
+                totalBreeds = breeds.length;
+                updateStats();
+            } catch (error) {
+                console.error('Error loading breed count:', error);
+            }
+        }
+
+        // Show loading state
+        function showLoading(show = true) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+
+        // Show error message
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // Update statistics
+        function updateStats() {
+            document.getElementById('totalCats').textContent = totalCatsViewed;
+            document.getElementById('totalBreeds').textContent = totalBreeds;
+            document.getElementById('currentPage').textContent = currentPage;
+        }
+
+        // Load random cats
+        async function loadRandomCats(append = false) {
+            currentMode = 'random';
+            if (!append) {
+                currentPage = 1;
+                document.getElementById('gallery').innerHTML = '';
+            }
+
+            showLoading(true);
+            
+            try {
+                const response = await fetch(`${API_BASE}/images/search?limit=10&page=${currentPage}&order=RANDOM`, {
+                    headers: {
+                        'x-api-key': API_KEY
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch cats');
+                }
+                
+                const cats = await response.json();
+                displayCats(cats, append);
+                totalCatsViewed += cats.length;
+                updateStats();
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Failed to load cats. Please try again.');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Load cats with breed information
+        async function loadBreedCats(append = false) {
+            currentMode = 'breeds';
+            if (!append) {
+                currentPage = 1;
+                document.getElementById('gallery').innerHTML = '';
+            }
+
+            showLoading(true);
+            
+            try {
+                const response = await fetch(`${API_BASE}/images/search?limit=10&page=${currentPage}&has_breeds=1`, {
+                    headers: {
+                        'x-api-key': API_KEY
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch cats');
+                }
+                
+                const cats = await response.json();
+                displayCats(cats, append);
+                totalCatsViewed += cats.length;
+                updateStats();
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Failed to load breed cats. Please try again.');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Load more cats based on current mode
+        function loadMoreCats() {
+            currentPage++;
+            if (currentMode === 'random') {
+                loadRandomCats(true);
+            } else {
+                loadBreedCats(true);
+            }
+        }
+
+        // Display cats in the gallery
+        function displayCats(cats, append = false) {
+            const gallery = document.getElementById('gallery');
+            
+            if (!append) {
+                gallery.innerHTML = '';
+            }
+
+            cats.forEach(cat => {
+                const card = document.createElement('div');
+                card.className = 'cat-card';
+                
+                let breedInfo = '';
+                if (cat.breeds && cat.breeds.length > 0) {
+                    const breed = cat.breeds[0];
+                    breedInfo = `
+                        <div class="cat-info">
+                            <div class="breed-name">${breed.name}</div>
+                            <div class="breed-description">${breed.description || 'No description available'}</div>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <img src="${cat.url}" alt="Cat" class="cat-image" onerror="this.src='https://via.placeholder.com/300x300?text=Cat+Image+Error'">
+                    ${breedInfo}
+                `;
+
+                card.onclick = () => {
+                    window.open(cat.url, '_blank');
+                };
+
+                gallery.appendChild(card);
+            });
+        }
+
+        // Initialize on page load
+        init();
+    </script>
+</body>
+</html>
