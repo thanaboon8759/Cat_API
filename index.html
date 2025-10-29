@@ -217,6 +217,7 @@
     <script>
         const API_KEY = 'live_gVPv82VA9ruydZSojPZJtyVqIytBytzuHakYaaSEM1OqeONKb4BDG6FR0AeilCdW';
         const API_BASE = 'https://api.thecatapi.com/v1';
+        const CATS_PER_PAGE = 10;
         
         let currentPage = 1;
         let totalCatsViewed = 0;
@@ -278,7 +279,7 @@
             showLoading(true);
             
             try {
-                const response = await fetch(`${API_BASE}/images/search?limit=10&page=${currentPage}&order=RANDOM`, {
+                const response = await fetch(`${API_BASE}/images/search?limit=${CATS_PER_PAGE}&page=${currentPage}&order=RANDOM`, {
                     headers: {
                         'x-api-key': API_KEY
                     }
@@ -311,7 +312,7 @@
             showLoading(true);
             
             try {
-                const response = await fetch(`${API_BASE}/images/search?limit=10&page=${currentPage}&has_breeds=1`, {
+                const response = await fetch(`${API_BASE}/images/search?limit=${CATS_PER_PAGE}&page=${currentPage}&has_breeds=1`, {
                     headers: {
                         'x-api-key': API_KEY
                     }
@@ -355,9 +356,11 @@
                 const card = document.createElement('div');
                 card.className = 'cat-card';
                 
+                const breed = cat.breeds && cat.breeds.length > 0 ? cat.breeds[0] : null;
+                const altText = breed ? `${breed.name} cat` : 'Cat image';
+                
                 let breedInfo = '';
-                if (cat.breeds && cat.breeds.length > 0) {
-                    const breed = cat.breeds[0];
+                if (breed) {
                     breedInfo = `
                         <div class="cat-info">
                             <div class="breed-name">${breed.name}</div>
@@ -367,7 +370,7 @@
                 }
 
                 card.innerHTML = `
-                    <img src="${cat.url}" alt="Cat" class="cat-image" onerror="this.src='https://via.placeholder.com/300x300?text=Cat+Image+Error'">
+                    <img src="${cat.url}" alt="${altText}" class="cat-image" onerror="this.src='https://via.placeholder.com/300x300?text=Cat+Image+Error'">
                     ${breedInfo}
                 `;
 
