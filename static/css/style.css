@@ -1,0 +1,837 @@
+/* Custom CSS for Cat API Web App - Orange to Dark Theme */
+
+:root {
+    --cream: #FFF8E1;
+    --light-orange: #FFB74D;
+    --medium-orange: #FF9800;
+    --dark-orange: #FF5722;
+    --dark-navy: #2C3E50;
+    --gradient-bg: linear-gradient(135deg, var(--cream) 0%, var(--light-orange) 25%, var(--medium-orange) 50%, var(--dark-orange) 75%, var(--dark-navy) 100%);
+    --gradient-cards: linear-gradient(135deg, var(--cream) 0%, var(--light-orange) 100%);
+    --gradient-headers: linear-gradient(135deg, var(--medium-orange) 0%, var(--dark-orange) 100%);
+}
+
+body {
+    background: white;
+    background-image: 
+        linear-gradient(135deg, rgba(255,248,225,0.3) 0%, rgba(255,255,255,0) 50%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        url('/static/images/paw.png'),
+        url('/static/images/paw.png'),
+        url('/static/images/paw.png'),
+        url('/static/images/paw.png');
+    background-size: 40px 40px, 30px 30px, 35px 35px, 25px 25px;
+    background-position: 15% 20%, 85% 30%, 25% 80%, 75% 70%;
+    background-repeat: no-repeat;
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: -1;
+    animation: floatPaws 20s ease-in-out infinite;
+}
+
+@keyframes floatPaws {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.03;
+    }
+    25% { 
+        transform: translateY(-10px) rotate(2deg);
+        opacity: 0.05;
+    }
+    50% { 
+        transform: translateY(-5px) rotate(-1deg);
+        opacity: 0.04;
+    }
+    75% { 
+        transform: translateY(-15px) rotate(1deg);
+        opacity: 0.02;
+    }
+}
+
+.navbar {
+    background: linear-gradient(135deg, var(--dark-orange) 0%, var(--dark-navy) 100%) !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: white !important;
+}
+
+.cat-image {
+    max-height: 400px;
+    max-width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.cat-image:hover {
+    transform: scale(1.02);
+}
+
+.card {
+    border: 2px solid rgba(255,152,0,0.3);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(15px);
+    box-shadow: 
+        0 10px 40px rgba(0,0,0,0.1),
+        0 4px 12px rgba(255,87,34,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.9);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-headers);
+    opacity: 0.9;
+}
+
+.card:hover {
+    border-color: rgba(255,87,34,0.5);
+    box-shadow: 
+        0 15px 50px rgba(0,0,0,0.12),
+        0 6px 20px rgba(255,87,34,0.25),
+        inset 0 1px 0 rgba(255,255,255,0.9);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(255, 87, 34, 0.3);
+}
+
+.card-header {
+    border-radius: 15px 15px 0 0 !important;
+    border-bottom: none;
+    font-weight: 600;
+    background: var(--gradient-headers) !important;
+    color: white !important;
+}
+
+.card-header.bg-primary {
+    background: var(--gradient-headers) !important;
+}
+
+.card-header.bg-success {
+    background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%) !important;
+}
+
+.card-header.bg-info {
+    background: linear-gradient(135deg, #00BCD4 0%, #0097A7 100%) !important;
+}
+
+.card-header.bg-warning {
+    background: linear-gradient(135deg, var(--light-orange) 0%, var(--medium-orange) 100%) !important;
+    color: white !important;
+}
+
+.card-header.bg-light {
+    background: linear-gradient(135deg, var(--cream) 0%, #F5F5F5 100%) !important;
+    color: var(--dark-navy) !important;
+}
+
+.breed-card {
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, rgba(255,248,225,0.95) 0%, rgba(255,183,77,0.85) 100%);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,152,0,0.4) !important;
+}
+
+.breed-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 25px 50px rgba(255, 87, 34, 0.3);
+    background: linear-gradient(135deg, rgba(255,248,225,1) 0%, rgba(255,183,77,0.95) 100%);
+    border-color: rgba(255,87,34,0.6) !important;
+}
+
+.breed-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    border: 2px solid rgba(255,152,0,0.3);
+}
+
+.breed-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(255,87,34,0.3);
+    border-color: rgba(255,87,34,0.5);
+}
+
+/* Improved breed image container */
+.breed-image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.breed-image-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.breed-card:hover .breed-image-container::before {
+    opacity: 1;
+}
+
+.breed-info p {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.rating-stars {
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.rating-stars i {
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    cursor: default;
+}
+
+.rating-stars i.fas {
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.rating-stars:hover i {
+    transform: scale(1.1);
+}
+
+/* Enhanced breed info styling */
+.breed-info {
+    background: rgba(255,255,255,0.6);
+    padding: 15px;
+    border-radius: 12px;
+    margin: 10px 0;
+    border: 1px solid rgba(255,152,0,0.2);
+    backdrop-filter: blur(5px);
+}
+
+.breed-info p {
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.breed-info strong {
+    color: var(--dark-orange);
+    font-weight: 600;
+}
+
+/* Enhanced breed ratings section */
+.breed-ratings {
+    background: rgba(255,248,225,0.7);
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,183,77,0.3);
+}
+
+.breed-ratings .mb-1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px !important;
+}
+
+.breed-ratings small {
+    font-weight: 600;
+    color: var(--dark-navy);
+    min-width: 120px;
+}
+
+.alert {
+    border: none;
+    border-radius: 8px;
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+.btn-primary {
+    background: var(--gradient-headers);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--dark-orange) 0%, var(--dark-navy) 100%);
+    box-shadow: 0 6px 20px rgba(255, 87, 34, 0.4);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+}
+
+.btn-info {
+    background: linear-gradient(135deg, #00BCD4 0%, #0097A7 100%);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, var(--light-orange) 0%, var(--medium-orange) 100%);
+    color: white;
+}
+
+.btn-outline-primary {
+    border: 2px solid var(--medium-orange);
+    color: var(--dark-orange);
+    background: transparent;
+}
+
+.btn-outline-primary:hover {
+    background: var(--gradient-headers);
+    border-color: var(--dark-orange);
+    color: white;
+}
+
+.badge {
+    font-size: 0.75rem;
+    font-weight: normal;
+    margin-bottom: 2px;
+}
+
+footer {
+    margin-top: auto;
+    background: linear-gradient(135deg, var(--dark-navy) 0%, #1a1a1a 100%) !important;
+    border-top: 3px solid var(--dark-orange);
+}
+
+footer a {
+    text-decoration: none;
+    color: var(--light-orange) !important;
+}
+
+footer a:hover {
+    text-decoration: underline;
+    color: var(--medium-orange) !important;
+}
+
+/* Loading spinner */
+.spinner {
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid var(--medium-orange);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Optimized skeleton loading animation */
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.2s infinite ease-in-out;
+    border-radius: 10px;
+    will-change: background-position;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Fast fade-in for images */
+.fade-in {
+    animation: fadeInSmooth 0.3s ease-out forwards;
+}
+
+@keyframes fadeInSmooth {
+    from { 
+        opacity: 0; 
+        transform: translateY(5px);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0);
+    }
+}
+
+/* Optimized breed card hover */
+.breed-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    will-change: transform;
+}
+
+.breed-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.breed-image-skeleton {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+
+/* Pulse animation for loading cards */
+.loading-card {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+/* Fade in animation for loaded content */
+.fade-in {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .cat-image {
+        max-height: 300px;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .breed-info p {
+        font-size: 0.85rem;
+    }
+}
+
+/* Fun animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255,248,225,0.3);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--medium-orange);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--dark-orange);
+}
+
+/* Enhanced alert styles */
+.alert {
+    border: none;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+}
+
+.alert-info {
+    background: linear-gradient(135deg, rgba(0,188,212,0.1) 0%, rgba(0,151,167,0.2) 100%);
+    border-left: 4px solid #00BCD4;
+    color: #0097A7;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, rgba(255,183,77,0.2) 0%, rgba(255,152,0,0.3) 100%);
+    border-left: 4px solid var(--medium-orange);
+    color: var(--dark-orange);
+}
+
+/* Enhanced badge styles */
+.badge {
+    font-size: 0.75rem;
+    font-weight: normal;
+    margin-bottom: 2px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.badge.bg-secondary {
+    background: linear-gradient(135deg, var(--light-orange) 0%, var(--medium-orange) 100%) !important;
+    color: white;
+}
+
+/* Decorative elements */
+.decorative-dots {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--light-orange);
+    border-radius: 50%;
+    opacity: 0.6;
+}
+
+.decorative-dots::before,
+.decorative-dots::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-image: url('/static/images/paw.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.4;
+}
+
+.decorative-dots::before {
+    top: -10px;
+    left: 8px;
+    transform: rotate(15deg);
+}
+
+.decorative-dots::after {
+    top: 8px;
+    left: -10px;
+    transform: rotate(-20deg);
+}
+
+/* Floating decorative shapes */
+.floating-shape {
+    position: fixed;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.1;
+}
+
+.floating-shape-1 {
+    top: 10%;
+    right: 10%;
+    width: 60px;
+    height: 60px;
+    background: var(--light-orange);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.floating-shape-2 {
+    bottom: 20%;
+    left: 5%;
+    width: 40px;
+    height: 40px;
+    background: var(--medium-orange);
+    border-radius: 50%;
+    animation: float 8s ease-in-out infinite reverse;
+}
+
+.floating-shape-3 {
+    top: 30%;
+    left: 20%;
+    width: 30px;
+    height: 30px;
+    background: var(--dark-orange);
+    transform: rotate(45deg);
+    animation: float 7s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+/* Search Bar Styling */
+.search-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-input {
+    border: 2px solid rgba(255,152,0,0.3);
+    border-radius: 25px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.search-input:focus {
+    border-color: var(--medium-orange);
+    box-shadow: 0 0 0 0.2rem rgba(255,152,0,0.25), 0 6px 20px rgba(0,0,0,0.1);
+    outline: none;
+}
+
+.input-group-text {
+    background: var(--gradient-headers);
+    border: 2px solid rgba(255,152,0,0.3);
+    border-right: none;
+    color: white;
+    border-radius: 25px 0 0 25px;
+}
+
+.input-group .btn {
+    border: 2px solid rgba(255,152,0,0.3);
+    border-left: none;
+    border-radius: 0 25px 25px 0;
+    background: rgba(255,152,0,0.1);
+    color: var(--dark-orange);
+}
+
+.input-group .btn:hover {
+    background: var(--light-orange);
+    color: white;
+    border-color: var(--medium-orange);
+}
+
+.search-results-info {
+    text-align: center;
+}
+
+/* Enhanced Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    color: var(--dark-navy);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.lead {
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Enhanced Form Elements */
+.form-control {
+    border-radius: 10px;
+    border: 2px solid rgba(255,152,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--medium-orange);
+    box-shadow: 0 0 0 0.2rem rgba(255,152,0,0.25);
+}
+
+/* Enhanced List Items */
+ul li {
+    margin-bottom: 0.5rem;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+ul li::before {
+    content: '🐾';
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* Better Link Styling */
+a {
+    color: var(--medium-orange);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--dark-orange);
+    text-decoration: underline;
+}
+
+/* Enhanced Code Styling */
+code {
+    background: rgba(255,152,0,0.1);
+    color: var(--dark-orange);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    border: 1px solid rgba(255,152,0,0.2);
+}
+
+/* Improved Alert Styling */
+.alert {
+    border-radius: 15px;
+    border: 2px solid;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.alert-info {
+    background: linear-gradient(135deg, rgba(0,188,212,0.1) 0%, rgba(0,151,167,0.15) 100%);
+    border-color: #00BCD4;
+    color: #0097A7;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, rgba(255,183,77,0.15) 0%, rgba(255,152,0,0.2) 100%);
+    border-color: var(--medium-orange);
+    color: var(--dark-orange);
+}
+
+/* Improved Text Selection */
+::selection {
+    background: rgba(255,152,0,0.3);
+    color: var(--dark-navy);
+}
+
+::-moz-selection {
+    background: rgba(255,152,0,0.3);
+    color: var(--dark-navy);
+}
+
+/* Navigation enhancements */
+.nav-link:hover {
+    color: var(--light-orange) !important;
+    transition: color 0.3s ease;
+}
+
+/* Container enhancements */
+.container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Main content styling */
+main.container {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    padding: 2.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 
+        0 12px 40px rgba(0,0,0,0.08),
+        0 4px 12px rgba(255,87,34,0.12),
+        inset 0 1px 0 rgba(255,255,255,0.9);
+    border: 2px solid rgba(255,152,0,0.2);
+    position: relative;
+}
+
+main.container::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: var(--gradient-headers);
+    border-radius: 27px;
+    z-index: -1;
+    opacity: 0.1;
+}
+
+/* Performance optimizations */
+* {
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Enable hardware acceleration for animations */
+.breed-card, .paw-icon, .breed-image {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+/* Custom paw icon */
+.paw-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url('/static/images/paw.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    vertical-align: middle;
+    margin-right: 4px;
+    transform: translateZ(0); /* Hardware acceleration */
+}
+
+.paw-icon.paw-lg {
+    width: 24px;
+    height: 24px;
+}
+
+.paw-icon.paw-xl {
+    width: 32px;
+    height: 32px;
+}
+
+.paw-icon.paw-2x {
+    width: 40px;
+    height: 40px;
+}
+
+/* Pagination controls */
+.pagination-controls {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 140, 0, 0.2);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(255, 140, 0, 0.1);
+}

@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Home - PurrfectPics{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title mb-0">
+                    <i class="fas fa-camera"></i> Random Cat of the Day
+                </h3>
+            </div>
+            <div class="card-body text-center">
+                {% if cat_image %}
+                    <img src="{{ cat_image }}" alt="Random Cat" class="img-fluid rounded cat-image" id="catImage">
+                {% else %}
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Sorry, couldn't load a cat image right now. Please try refreshing!
+                    </div>
+                {% endif %}
+                <div class="mt-3">
+                    <button class="btn btn-primary" onclick="getNewCat()">
+                        <i class="fas fa-sync-alt"></i> Get New Cat
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h4 class="card-title mb-0">
+                    <i class="fas fa-lightbulb"></i> Cat Facts
+                </h4>
+            </div>
+            <div class="card-body">
+                {% if cat_facts %}
+                    {% for fact in cat_facts %}
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> {{ fact }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-warning">
+                        No cat facts available right now.
+                    </div>
+                {% endif %}
+                <button class="btn btn-success btn-sm" onclick="getNewFact()">
+                    <i class="fas fa-dice"></i> New Fact
+                </button>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mt-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-cogs"></i> API Endpoints
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="small mb-2">Try these API endpoints:</p>
+                <ul class="list-unstyled small">
+                    <li><code>/api/random-cat</code> - Get random cat image</li>
+                    <li><code>/api/cat-fact</code> - Get a cat fact</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="card-title mb-0">
+                    <span class="paw-icon paw-lg"></span> Welcome to PurrfectPics
+                </h4>
+            </div>
+            <div class="card-body">
+                <p class="lead">Discover amazing cats from around the world!</p>
+                <p>PurrfectPics uses <strong>The Cat API</strong> to bring you:</p>
+                <ul>
+                    <li><i class="fas fa-image text-primary"></i> Random cat images</li>
+                    <li><i class="fas fa-book text-success"></i> Interesting cat facts</li>
+                    <li><i class="fas fa-list text-info"></i> Different cat breeds information</li>
+                    <li><i class="fas fa-code text-warning"></i> JSON API endpoints for developers</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
